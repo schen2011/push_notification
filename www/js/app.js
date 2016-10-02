@@ -5,10 +5,27 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','firebase'])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, $firebaseObject, $firebaseAuth, $firebaseArray) {
   $ionicPlatform.ready(function() {
+
+    var ref = new Firebase("https://hackathon-143101.firebaseio.com/posts");
+
+    console.log("success log");
+
+
+    var syncObject = $firebaseArray(ref);
+
+
+    syncObject.$loaded().then(function() {
+      console.log("load data");
+      //console.log("load data", JSON.stringify(syncObject[0]));
+      angular.forEach(syncObject, function(value, key){
+          console.log("value:" + value.email3);
+      });
+    });
+
 
     var push = new Ionic.Push({
       "debug": true
@@ -28,9 +45,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
-
-
-
   });
 })
 
