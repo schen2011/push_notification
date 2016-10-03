@@ -2,6 +2,19 @@ angular.module('starter.services', ['firebase'])
 
 .factory('Claims', function($firebaseArray) {
 
+    var ref = new Firebase("https://hackathon-143101.firebaseio.com/posts");
+
+    var syncObject = $firebaseArray(ref);
+
+    var claims = [];
+
+    syncObject.$loaded().then(function() {
+      angular.forEach(syncObject, function(value, key){
+          var claim = {email: value.email3, username, value.username3};
+          claims.push(claim);
+      });
+    });
+
   var claims = [{
     id: 0,
     name: 'Ben Sparrow',
@@ -29,25 +42,20 @@ angular.module('starter.services', ['firebase'])
     face: 'img/mike.png'
   }];
 
-    var ref = new Firebase("https://hackathon-143101.firebaseio.com/posts");
-
-    var syncObject = $firebaseArray(ref);
-
-    var claims = [];
-
-    syncObject.$loaded().then(function() {
-      angular.forEach(syncObject, function(value, key){
-          var claim = new Object();
-          claim.name  = value.username3;
-          claim.email = value.email3;
-          claims.push(claim);
-      });
-    });
-
   return {
     all: function() {
       return claims;
+    },
+    remove: function(claim) {
+            claims.splice(claims.indexOf(claim), 1);
+    },
+    get: function(claimId) {
+      for (var i = 0; i < claims.length; i++) {
+        if (claims[i].id === parseInt(claimId)) {
+          return claims[i];
+        }
+      }
+      return null;
     }
   };
 });
-

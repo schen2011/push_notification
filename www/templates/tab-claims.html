@@ -1,0 +1,14 @@
+<ion-view view-title="Claims">
+  <ion-content>
+    <ion-list>
+      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="claim in claims" type="item-text-wrap" href="#">
+        <h2>{{claim.name}}</h2>
+        <p>{{claim.email}}</p>
+        <i class="icon ion-chevron-right icon-accessory"></i>
+        <ion-option-button class="button-assertive" ng-click="remove(chat)">
+          Delete
+        </ion-option-button>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

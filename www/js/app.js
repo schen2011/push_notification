@@ -7,7 +7,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','firebase'])
 
-.run(function($ionicPlatform, $firebaseObject, $firebaseAuth, $firebaseArray) {
+.run(function($ionicPlatform, $firebaseAuth, $firebaseArray) {
   $ionicPlatform.ready(function() {
 
     var ref = new Firebase("https://hackathon-143101.firebaseio.com/posts");
@@ -17,12 +17,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','f
 
     var syncObject = $firebaseArray(ref);
 
+    var claims = [];
 
     syncObject.$loaded().then(function() {
-      console.log("load data");
-      //console.log("load data", JSON.stringify(syncObject[0]));
       angular.forEach(syncObject, function(value, key){
-          console.log("value:" + value.email3);
+          var claim = {email:value.email3, username:value.username3};
+          claims.push(claim);
       });
     });
 
@@ -90,6 +90,14 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','f
         'tab-chats': {
           templateUrl: 'templates/chat-detail.html',
           controller: 'ChatDetailCtrl'
+        }
+      }
+    }).state('tab.claims', {
+      url: '/claims',
+      views: {
+        'tab-claims': {
+          templateUrl: 'templates/tab-claims.html',
+          controller: 'ClaimsCtrl'
         }
       }
     })
